@@ -1,0 +1,23 @@
+#Upper_StackPane{
+    -fx-background-color: gray;
+}
+
+#HBox_compile{
+    -fx-background-color: cyan;
+}
+
+#VBox_Chat{
+    -fx-background-color: red;
+}
+
+
+#button{
+    -fx-background-color: red;
+}
+
+#StackPane_TextArea{
+    -fx-background-color: cyan;
+}
+
+
+
