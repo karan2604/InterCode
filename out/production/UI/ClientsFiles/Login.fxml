@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="500.0" prefWidth="400.0" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientsFiles.LoginController">
+   <children>
+      <HBox alignment="CENTER_RIGHT" prefHeight="67.0" prefWidth="400.0">
+         <children>
+            <TextField fx:id="TxtUserName" promptText="Username">
+               <HBox.margin>
+                  <Insets left="10.0" right="5.0" />
+               </HBox.margin>
+            </TextField>
+            <PasswordField fx:id="TxtPassword" promptText="Password">
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin>
+            </PasswordField>
+            <Button fx:id="Signin" mnemonicParsing="false" onAction="#SigninAction" prefWidth="90.0" text="Sign in">
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin></Button>
+            <Button fx:id="SignUp" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#SignUpAction" prefWidth="90.0" text="Sign Up">
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin></Button>
+         </children>
+      </HBox>
+      <VBox alignment="CENTER" prefHeight="227.0" prefWidth="400.0" spacing="20.0">
+         <children>
+            <RadioButton fx:id="RadioButtonInterviewer" mnemonicParsing="false" onAction="#RadioButtonInterviewerAction" selected="true" text="Interviewer">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <toggleGroup>
+                  <ToggleGroup fx:id="Logingrp" />
+               </toggleGroup>
+            </RadioButton>
+            <Label text="OR">
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </Label>
+            <RadioButton fx:id="RadioButtonInterviewee" mnemonicParsing="false" onAction="#RadioButtonIntervieweeAction" text="Interviewee" toggleGroup="$Logingrp">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <TextField fx:id="TxtID" alignment="CENTER" promptText="Enter ID" visible="false">
+               <VBox.margin>
+                  <Insets left="90.0" right="80.0" />
+               </VBox.margin></TextField>
+         </children>
+      </VBox>
+      <VBox alignment="BOTTOM_RIGHT" prefHeight="163.0" prefWidth="400.0">
+         <children>
+            <Button fx:id="btnready" mnemonicParsing="false" onAction="#btnreadyAction" text="Ready To go">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</VBox>

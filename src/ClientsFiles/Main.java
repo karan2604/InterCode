@@ -1,4 +1,4 @@
-package sample;
+package ClientsFiles;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("client.fxml"));
         primaryStage.setTitle("Hello World");
         Scene scene=new Scene(root, 1200, 750);
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

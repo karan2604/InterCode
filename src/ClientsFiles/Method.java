@@ -1,11 +1,10 @@
-package sample;
+package ClientsFiles;
 
 import CommonFiles.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 
 public class Method {
@@ -13,17 +12,18 @@ public class Method {
     public ObjectOutputStream out;
     public ObjectInputStream in;
 
-    public void connect(String username){
+    public void connect(int port){
+
 
         Socket socket= null;
         try {
-            socket = new Socket("127.0.0.1",8063);
+            socket = new Socket("127.0.0.1",port);
             out=new ObjectOutputStream(socket.getOutputStream());
             Message m=new Message();
-            m.setStatus(username);
-            m.setId(username+"123");
-            m.setOthermanid(username+"toher");
-            m.setMessage(username+"mes");
+            m.setStatus("username");
+            m.setId("username"+"123");
+            m.setOthermanid("username"+"toher");
+            m.setMessage("username"+"mes");
             out.writeObject(m);
             out.flush();
 

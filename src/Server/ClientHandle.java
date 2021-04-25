@@ -16,6 +16,8 @@ public class ClientHandle{
     ClientHandle(Socket socket)
     {
         this.socket=socket;
+
+        System.out.println(socket);
         execute();
     }
 
@@ -34,6 +36,7 @@ public class ClientHandle{
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
+
 
             }
         });

@@ -1,6 +1,5 @@
-package sample;
+package ClientsFiles;
 
-import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -11,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
@@ -32,7 +30,12 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Select_lang.setItems(list);
-
+        CompileTxtArea.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                InputTxtArea.setText(CompileTxtArea.getText());
+            }
+        });
     }
 
     @FXML
@@ -50,6 +53,7 @@ public class Controller implements Initializable {
     public void CompileTxtAreaKeyPressed(KeyEvent event)
     {
         //System.out.println(CompileTxtArea.getText());
+        //InputTxtArea.setText(CompileTxtArea.getText());
     }
 
     @FXML

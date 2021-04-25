@@ -1,10 +1,6 @@
-package sample;
-
-import javafx.fxml.FXML;
+package ClientsFiles;
 
 import java.io.*;
-import java.net.ProtocolException;
-import java.util.Scanner;
 
 public class Testing {
 
