@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -31,13 +32,18 @@ public class LoginController implements Initializable {
     public TextField TxtID;
     @FXML
     public  Button btnready;
-
+    @FXML
+    private Stage stage;
+    @FXML
+    private Scene scene;
+    @FXML
+    private Parent root;
     boolean chooserdbtn=true;
-
+    int port = 9191;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //System.out.println("karan kesri");
+
     }
 
     public void SigninAction(ActionEvent event)
@@ -54,7 +60,6 @@ public class LoginController implements Initializable {
     {
         chooserdbtn=true;
         TxtID.setVisible(false);
-
     }
 
     public void RadioButtonIntervieweeAction(ActionEvent event)
@@ -76,29 +81,19 @@ public class LoginController implements Initializable {
         {
                 if(chooserdbtn)  //Interviewer->Act as Server--start the Server -> then call its UI
                 {
-                    System.out.println("Interviewer Selected");
+                    roleSelector.setRole(1);
+                    //System.out.println("Interviewer Selected");
                     //new Server.Main().startserver();
-                    try {
-                        Stage primaryStage=new Stage();
-                        Parent root = FXMLLoader.load(getClass().getResource("client.fxml"));
-                        primaryStage.setTitle("Hello World");
-                        Scene scene=new Scene(root, 1200, 750);
-                        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-                        primaryStage.setScene(scene);
-                        primaryStage.show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
 
                 }
                 else  //Interviewee->Act as Client--start the Socket and request it from server -> then call its UI
                 {
-                    System.out.println("Interviewee Selected");
+                    //System.out.println("Interviewee Selected");
+                    roleSelector.setRole(2);
                     if(TxtID.getText().trim().isEmpty())
                     {
                         Alert alert=new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle("OOPs!!!");
+                        alert.setTitle("OOPS!!!");
                         alert.setContentText("Please Enter Correct ID");
                         alert.showAndWait();
                     }
@@ -107,6 +102,16 @@ public class LoginController implements Initializable {
                         //new Method().connect(8063);
                     }
                 }
+            try {
+                root = FXMLLoader.load(getClass().getResource("client.fxml"));
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.setTitle("InterCode");
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

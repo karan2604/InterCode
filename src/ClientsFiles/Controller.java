@@ -1,36 +1,37 @@
 package ClientsFiles;
 
 import javafx.animation.TranslateTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
     @FXML
-    public Button sendButton;
-    @FXML
-    public TextArea inputTextArea;
-    @FXML
-    private Button logoutButton,runButton;
-    @FXML
-    private Button compileButton;
+    private Button logoutButton,runButton,sendButton,compileButton;
     @FXML
     private RadioButton modeRadioButton;
     @FXML
@@ -44,11 +45,22 @@ public class Controller implements Initializable {
     @FXML
     private ChoiceBox<String> langChoiceBox;
     @FXML
-    private TextArea codingTextArea,outputTextArea;
+    private TextArea codingTextArea,outputTextArea,inputTextArea;
+    @FXML
+    private TextArea chatInputTextArea,chatDisplayTextArea;
     @FXML
     ImageView cloud1,cloud3,cloud2;
 
-    private String[] languages = {"C","C++","Java"};
+    Socket clientSocket;
+    ServerSocket serverSocket;
+    ObjectOutputStream clientoos;
+    ObjectInputStream clientois;
+
+    final private String[] languages = {"C","C++","Java"};
+    private HashMap<String,TextArea> nameToObject = new HashMap<String,TextArea>();
+    private String sender = "Rajat";  //By default the user is Rajat
+    private Boolean isConnected = false;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -56,70 +68,213 @@ public class Controller implements Initializable {
         langChoiceBox.getItems().addAll(languages);
         langChoiceBox.setOnAction(this::chooseLanguage);
 
-        //Background animation
-        helpWithTranslation(cloud1);
-        helpWithTranslation(cloud2);
-        helpWithTranslation(cloud3);
+        //Populating the HashMap
+        nameToObject.put("codingTextArea",codingTextArea);
+        nameToObject.put("inputTextArea",inputTextArea);
+        nameToObject.put("outputTextArea",outputTextArea);
+        nameToObject.put("chatInputTextArea",chatInputTextArea);
+        nameToObject.put("chatDisplayTextArea",chatDisplayTextArea);
 
-//        codingTextArea.textProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-//                inputTextArea.setText(codingTextArea.getText());
-//            }
-//        });
+        //nameToObject.put("",)
+
+        //starting the connection
+        try {
+            initiateConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            clientoos = new ObjectOutputStream(clientSocket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    clientois = new ObjectInputStream(clientSocket.getInputStream());
+                } catch (IOException e) {
+                    isConnected = false;
+                }
+                sendInfo object;
+                while(isConnected){
+                    try {
+                        object = (sendInfo) clientois.readObject();
+                        if(object.getTypeOfInfo().equals("SharedContent") && isConnected){
+                            nameToObject.get(object.getTargetedArea()).setText(object.getContent());
+                        }
+                        else if(object.getTypeOfInfo().equals("Message") && isConnected ){
+                            chatDisplayTextArea.appendText("\n");
+                            chatDisplayTextArea.appendText(object.getSender()+ ": "+ object.getContent());
+                            chatDisplayTextArea.appendText("\n-----------------------------------------");
+                        }
+                        else if(object.getTypeOfInfo().equals("ClosingMessage") && isConnected){
+//                            System.out.println("Connection is Closed");
+                            isConnected = false;
+                            break;
+                        }
+                    } catch (IOException | ClassNotFoundException e) {
+                        //Do Nothing
+                    }
+                }
+                terminateConnection();
+            }
+        });
+                thread.start();
+
+        //Background animation
+        helpWithTranslation(cloud1,20);
+        helpWithTranslation(cloud2,25);
+        helpWithTranslation(cloud3,30);
+
+//        Platform.exit();
+
     }
-    public void helpWithTranslation(ImageView imageView){
+    public void helpWithTranslation(ImageView imageView,int seconds){
+        //Handles the background animation for given imageview
         TranslateTransition translate = new TranslateTransition();
         translate.setNode(imageView);
-        translate.setDuration(Duration.seconds(20));
+        translate.setDuration(Duration.seconds(seconds));
         translate.setAutoReverse(true);
         translate.setCycleCount(TranslateTransition.INDEFINITE);
-        translate.setByX(1000);
+        translate.setByX(1100);
         translate.play();
+    }
+
+    public void initiateConnection() throws IOException {
+        //This function fills the value of clientSocket depending upon the role
+        if(roleSelector.role==1){
+//            serverSocket = new ServerSocket(Connection.port);
+//            Thread t = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        clientSocket = serverSocket.accept();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//            t.start();
+            clientSocket = new Connection().serverClientConnection();
+            setSender("Interviewer(Rajat)");
+        }
+        else{
+            clientSocket = new Connection().clientSocketConnection();
+            setSender("Interviewee(Karan)");
+        }
+        isConnected = true;
     }
 
     @FXML
     public  void chooseLanguage(ActionEvent event) {
+        //Handles the choosing of different programming languages in the choice box
         String language = langChoiceBox.getValue();
+        String preDefinedCode="";
         if(language.equals("Java")) {
-            String s=new Pre_defined_Code().Java_Pre_Code();
-            codingTextArea.setText(s);
+            preDefinedCode = new Pre_defined_Code().Java_Pre_Code();
         }
-        else{
-            codingTextArea.clear();
-            codingTextArea.setPromptText("Enter your "+language+" code here...");
+        else if(language.equals("C")){
+            preDefinedCode = new Pre_defined_Code().C_Pre_Code();
         }
+        else if(language.equals("C++")){
+            preDefinedCode = new Pre_defined_Code().CPP_Pre_Code();
+        }
+        codingTextArea.setText(preDefinedCode);
     }
     @FXML
     public void changeMode(ActionEvent e) throws IOException {
+        //Handles the modeRadioButton and changes the Dark and Light Mode.
         if(modeRadioButton.isSelected()){
             modeRadioButton.setText("Light Mode");
-            modeRadioButton.setStyle("-fx-font-color:#FFFFFF;");
             apane.setStyle("-fx-background-color:#444444;");
         }
         else{
             modeRadioButton.setText("Dark Mode");
-            modeRadioButton.setStyle("-fx-font-color:#444444;");
             apane.setStyle("-fx-background-color:#FFFFFF;");
         }
     }
 
-//    @FXML
-//    public void codingTextAreaKeyPressed(KeyEvent event)
-//    {
-//        //System.out.println(codingTextArea.getText());
-//        //InputTxtArea.setText(codingTextArea.getText());
-//    }
-//
-//    @FXML
-//    public void btncompileaction(ActionEvent event)
-//    {
-//        System.out.println(codingTextArea.getText());
-//        //new Testing().Store(codingTextArea.getText());
-//        //new Method().connect("kesri");
-//    }
+    @FXML
+    public void logout(ActionEvent e) throws IOException {
+        //Logout Confirmation
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Logout");
+        alert.setHeaderText("You are about to logout!!");
+        if(alert.showAndWait().get() == ButtonType.OK) {
+            //Disconnect & Switch scene to initial scene
+            if (isConnected) {
+                clientoos.writeObject(new sendInfo(sender, "ClosingMessage", "", "Closing the Connection"));
+                terminateConnection();
+                isConnected = false;
+            }
+            //Changing Scene
+            root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+            stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("Login.css").toExternalForm());
+            stage.setScene(scene);
+        }
+    }
 
+    @FXML
+    public void getTextOfTextArea(KeyEvent e){
+        if(isConnected) {
+            TextArea sourceOfEvent = (TextArea) e.getSource();
+            String text = sourceOfEvent.getText();
+            sendInfo info = new sendInfo(sender, "SharedContent", sourceOfEvent.getId(), text);
+            try {
+                clientoos.writeObject(info);
+                clientoos.flush();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+    }
+    @FXML
+    public void getTextOfTextAreaMouse(MouseEvent e){
+        if(isConnected) {
+            TextArea sourceOfEvent = (TextArea) e.getSource();
+            String text = sourceOfEvent.getText();
+            sendInfo info = new sendInfo(sender, "SharedContent", sourceOfEvent.getId(), text);
+            try {
+                clientoos.writeObject(info);
+                clientoos.flush();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+    }
 
+    @FXML
+    public void sendMessage(ActionEvent e) {
+        String msg = chatInputTextArea.getText();
+        if(msg!=null && isConnected){
+            try {
+                clientoos.writeObject(new sendInfo(sender,"Message","chatDisplayTextArea",msg));
+                clientoos.flush();
+                chatInputTextArea.clear();
+                chatDisplayTextArea.appendText("\n");
+                chatDisplayTextArea.appendText(sender+": "+msg);
+                chatDisplayTextArea.appendText("\n-----------------------------------------");
+            } catch (IOException ioException) {
+                System.out.println("Here");
+                ioException.printStackTrace();
+            }
+        }
+    }
 
+    private void setSender(String sender){
+        this.sender = sender;
+    }
 
+    private void terminateConnection(){
+        try {
+            clientoos.close();
+            clientois.close();
+            clientSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -4,7 +4,8 @@ public class Pre_defined_Code {
 
     String Java_Pre_Code()
     {
-        String s="import java.util.*;\n" +
+        String preDefinedCode =
+                "import java.util.*;\n" +
                 "import java.lang.*;\n" +
                 "import java.io.*;\n" +
                 "\n" +
@@ -16,6 +17,32 @@ public class Pre_defined_Code {
                 "\t        \n" +
                 "\t}\n" +
                 "}\n";
-        return s;
+        return preDefinedCode;
     }
+
+    String C_Pre_Code()
+    {
+        String preDefinedCode =
+                    "#include<stdio.h>;\n"+
+                    "\n"+
+                    "int main(void) {\n"+
+                    "\t// your code goes here\n"+
+                    "return 0;\n"+
+                    "}";
+        return preDefinedCode;
+    }
+
+    String CPP_Pre_Code()
+    {
+        String preDefinedCode =
+                "#include<iostream>;\n"+
+                 "using namespace std;\n"+
+                "\n"+
+                "int main(void) {\n"+
+                "\t// your code goes here\n"+
+                "return 0;\n"+
+                "}";
+        return preDefinedCode;
+    }
+
 }

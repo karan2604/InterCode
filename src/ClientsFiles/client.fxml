@@ -8,33 +8,33 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="apane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="783.0" prefWidth="1133.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientsFiles.Controller">
+<AnchorPane fx:id="apane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#getTextOfTextAreaMouse" prefHeight="783.0" prefWidth="1133.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientsFiles.Controller">
    <children>
       <ImageView fx:id="cloud1" fitHeight="415.0" fitWidth="581.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Resources/clouds.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="cloud2" fitHeight="319.0" fitWidth="320.0" layoutX="595.0" layoutY="316.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="cloud2" fitHeight="319.0" fitWidth="320.0" layoutY="316.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Resources/clouds.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="cloud3" fitHeight="208.0" fitWidth="278.0" layoutX="441.0" layoutY="538.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="cloud3" fitHeight="208.0" fitWidth="278.0" layoutX="100.0" layoutY="538.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Resources/clouds.png" />
          </image>
       </ImageView>
-      <TextArea fx:id="codingTextArea" layoutX="14.0" layoutY="14.0" opacity="0.85" prefHeight="560.0" prefWidth="776.0" />
-      <TextArea fx:id="inputTextArea" layoutX="14.0" layoutY="580.0" opacity="0.85" prefHeight="194.0" prefWidth="386.0" />
+      <TextArea fx:id="codingTextArea" layoutX="14.0" layoutY="14.0" onKeyReleased="#getTextOfTextArea" onMouseClicked="#getTextOfTextAreaMouse" onMousePressed="#getTextOfTextAreaMouse" opacity="0.85" prefHeight="560.0" prefWidth="776.0" />
+      <TextArea fx:id="inputTextArea" layoutX="14.0" layoutY="580.0" onKeyReleased="#getTextOfTextArea" onMouseClicked="#getTextOfTextAreaMouse" onMousePressed="#getTextOfTextAreaMouse" opacity="0.85" prefHeight="194.0" prefWidth="386.0" />
       <TextArea fx:id="outputTextArea" layoutX="404.0" layoutY="580.0" opacity="0.85" prefHeight="194.0" prefWidth="386.0" />
       <Button fx:id="runButton" layoutX="911.0" layoutY="14.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="91.0" text="Run" />
       <Button fx:id="compileButton" layoutX="801.0" layoutY="14.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="91.0" text="Compile" />
       <ChoiceBox fx:id="langChoiceBox" layoutX="1011.0" layoutY="22.0" prefHeight="26.0" prefWidth="110.0" />
-      <TextArea layoutX="800.0" layoutY="70.0" opacity="0.85" prefHeight="447.0" prefWidth="311.0" />
-      <Button fx:id="sendButton" layoutX="901.0" layoutY="587.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="Send" />
-      <Button fx:id="logoutButton" layoutX="910.0" layoutY="708.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="91.0" text="Logout" />
-      <TextArea layoutX="801.0" layoutY="524.0" opacity="0.85" prefHeight="50.0" prefWidth="311.0" />
-      <RadioButton fx:id="modeRadioButton" layoutX="915.0" layoutY="668.0" mnemonicParsing="false" onAction="#changeMode" text="Dark Mode" />
+      <TextArea fx:id="chatDisplayTextArea" editable="false" layoutX="800.0" layoutY="70.0" opacity="0.85" prefHeight="447.0" prefWidth="311.0" />
+      <Button fx:id="sendButton" layoutX="901.0" layoutY="587.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="26.0" prefWidth="110.0" text="Send" />
+      <Button fx:id="logoutButton" layoutX="910.0" layoutY="708.0" mnemonicParsing="false" onAction="#logout" prefHeight="42.0" prefWidth="91.0" text="Logout" />
+      <TextArea fx:id="chatInputTextArea" layoutX="801.0" layoutY="524.0" opacity="0.85" prefHeight="50.0" prefWidth="311.0" />
+      <RadioButton fx:id="modeRadioButton" layoutX="915.0" layoutY="668.0" mnemonicParsing="false" onAction="#changeMode" text="Dark Mode" textFill="#05b4f7" />
    </children>
 </AnchorPane>
