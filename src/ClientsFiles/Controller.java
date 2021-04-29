@@ -1,5 +1,6 @@
 package ClientsFiles;
 
+import CommonFiles_With_BigServerAndClients.Message;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -77,6 +78,9 @@ public class Controller implements Initializable {
 
         //nameToObject.put("",)
 
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
         //starting the connection
         try {
             initiateConnection();
@@ -88,9 +92,6 @@ public class Controller implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
                 try {
                     clientois = new ObjectInputStream(clientSocket.getInputStream());
                 } catch (IOException e) {
@@ -121,6 +122,9 @@ public class Controller implements Initializable {
             }
         });
                 thread.start();
+
+        ConnectionWithBigServe();  //Coneection with BigServer
+        StartListeningfromBigserver();
 
         //Background animation
         helpWithTranslation(cloud1,20);
@@ -274,6 +278,117 @@ public class Controller implements Initializable {
             clientois.close();
             clientSocket.close();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    Boolean isConnectedBigserver=false;
+    ObjectOutputStream bigserverout;
+    ObjectInputStream bigserverin;
+    Socket bigserversocket;
+
+    //Compile Button clicked
+    @FXML
+    public void compileButtonAction(ActionEvent event)
+    {
+        if(langChoiceBox.getValue()==null)
+        {
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("OOPs!!!");
+            alert.setContentText("Please Select the language");
+            alert.showAndWait();
+            return;
+        }
+
+        if(isConnectedBigserver)
+        {
+            if(!codingTextArea.getText().isEmpty())
+            {
+                Message m=new Message();
+                m.setContent(codingTextArea.getText());
+                m.setLang(langChoiceBox.getValue());
+                m.setOption("compile");
+                try {
+                    bigserverout.writeObject(m);
+                    bigserverout.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else
+        {
+            //Unable to find Big Server
+        }
+
+    }
+
+    //Run Button clicked
+    @FXML
+    public void runButtonAction(ActionEvent event)
+    {
+        if(langChoiceBox.getValue()==null)
+        {
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("OOPs!!!");
+            alert.setContentText("Please Select the language");
+            alert.showAndWait();
+            return;
+        }
+        if(isConnectedBigserver)
+        {
+            if(!codingTextArea.getText().isEmpty())
+            {
+                Message m=new Message();
+                m.setContent(inputTextArea.getText());
+                m.setLang(langChoiceBox.getValue());
+                m.setOption("run");
+                try {
+                    bigserverout.writeObject(m);
+                    bigserverout.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else
+        {
+            //Unable to find Big Server
+        }
+    }
+
+    private void StartListeningfromBigserver()
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                while(isConnectedBigserver)
+                {
+                    try {
+                        Message m=(Message) bigserverin.readObject();
+                        String content=m.getContent();
+                        outputTextArea.setText(content);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
+    private void ConnectionWithBigServe()
+    {
+
+        try {
+            bigserversocket=new Socket("127.0.0.1",8063);
+            bigserverout=new ObjectOutputStream(bigserversocket.getOutputStream());
+            bigserverin=new ObjectInputStream(bigserversocket.getInputStream());
+            isConnectedBigserver=true;
+            //System.out.println("client Connected");
+        } catch (Exception e) {
+            isConnectedBigserver=false;
             e.printStackTrace();
         }
     }
