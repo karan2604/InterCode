@@ -1,5 +1,5 @@
 # InterCode
-This is a project made by Karan Kesri and Rajat Bhatnagar(github.com/rajat-bh).
+This is a project made by Karan Kesri and [Rajat Bhatnagar](https://github.com/rajat-bh).
 
 **Technologies Used** : Java, JavaFX
 
