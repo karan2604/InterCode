@@ -10,16 +10,16 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class InterCodeServer {
+public class CompileHandle {
 
     static Process p;
     static String line="";
 
     public static void storeinput(String input)
     {
-        File file=new File("input.txt");
-        File fileerror=new File(("error.txt"));
-        File fileoutput=new File("output.txt");
+        File file=new File("src/BigServer/CompileHandleFiles/input.txt");
+        File fileerror=new File(("src/BigServer/CompileHandleFiles/error.txt"));
+        File fileoutput=new File("src/BigServer/CompileHandleFiles/output.txt");
         try {
             FileWriter fileWriter = new FileWriter(file);  //writing the input into input.txt file
             fileWriter.write(input);
@@ -43,10 +43,10 @@ public class InterCodeServer {
     public static void deletefiles()
     {
         //deleting a java class file
-        File javaclass=new File("InterCode.class");
+        File javaclass=new File("src/BigServer/CompileHandleFiles/InterCode.class");
         if(javaclass.exists())
             javaclass.delete();
-        File cppclass=new File("a.exe");
+        File cppclass=new File("src/BigServer/CompileHandleFiles/a.exe");
         if(cppclass.exists())
             cppclass.delete();
     }
@@ -64,12 +64,12 @@ public class InterCodeServer {
     private static void CompileJava(String codetxtarea)
     {
         line="";
-        File file=new File("InterCode.java");
+        File file=new File("src/BigServer/CompileHandleFiles/InterCode.java");
         try {
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write(codetxtarea);
             fileWriter.close();
-            p=Runtime.getRuntime().exec("cmd /c start cmd.exe /k \"javac InterCode.java 2> error.txt\"");
+            p=Runtime.getRuntime().exec("cmd /c start cmd.exe /k \"javac src/BigServer/CompileHandleFiles/InterCode.java 2> src/BigServer/CompileHandleFiles/error.txt\"");
 
             new Thread(new Runnable() {
                 @Override
@@ -77,10 +77,10 @@ public class InterCodeServer {
 
                     try {
                             Thread.sleep(5000);
-                            File javaclass=new File("InterCode.class");
+                            File javaclass=new File("src/BigServer/CompileHandleFiles/InterCode.class");
                             if(!javaclass.exists()) {
                                 while (true) {
-                                    line = readFilesasString("error.txt");
+                                    line = readFilesasString("src/BigServer/CompileHandleFiles/error.txt");
                                     if (!line.isEmpty()) {
                                         break;
                                     }
@@ -105,12 +105,12 @@ public class InterCodeServer {
     private static void CompileCpp(String codetxtarea)
     {
         line="";
-        File file=new File("InterCodeCplus.cpp");
+        File file=new File("src/BigServer/CompileHandleFiles/InterCodeCplus.cpp");
         try {
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write(codetxtarea);
             fileWriter.close();
-            p=Runtime.getRuntime().exec("cmd /c start cmd.exe /k \"g++ InterCodeCplus.cpp 2> error.txt\"");
+            p=Runtime.getRuntime().exec("cmd /c start cmd.exe /k \"g++ src/BigServer/CompileHandleFiles/InterCodeCplus.cpp 2> src/BigServer/CompileHandleFiles/error.txt\"");
 
             new Thread(new Runnable() {
                 @Override
@@ -118,10 +118,10 @@ public class InterCodeServer {
 
                     try {
                         Thread.sleep(5000);
-                        File cppclass=new File("a.exe");
+                        File cppclass=new File("src/BigServer/CompileHandleFiles/a.exe");
                         if(!cppclass.exists()) {
                             while (true) {
-                                line = readFilesasString("error.txt");
+                                line = readFilesasString("src/BigServer/CompileHandleFiles/error.txt");
                                 if (!line.isEmpty()) {
                                     break;
                                 }
@@ -146,12 +146,12 @@ public class InterCodeServer {
     private static void CompileC(String codetxtarea)
     {
         line="";
-        File file=new File("InterCodeC.cpp");
+        File file=new File("src/BigServer/CompileHandleFiles/InterCodeC.cpp");
         try {
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write(codetxtarea);
             fileWriter.close();
-            p=Runtime.getRuntime().exec("cmd /c start cmd.exe /k \"gcc InterCodeC.cpp 2> error.txt\"");
+            p=Runtime.getRuntime().exec("cmd /c start cmd.exe /k \"gcc src/BigServer/CompileHandleFiles/InterCodeC.cpp 2> src/BigServer/CompileHandleFiles/error.txt\"");
 
             new Thread(new Runnable() {
                 @Override
@@ -159,10 +159,10 @@ public class InterCodeServer {
 
                     try {
                         Thread.sleep(4000);
-                        File cclass=new File("a.exe");
+                        File cclass=new File("src/BigServer/CompileHandleFiles/a.exe");
                         if(!cclass.exists()) {
                             while (true) {
-                                line = readFilesasString("error.txt");
+                                line = readFilesasString("src/BigServer/CompileHandleFiles/error.txt");
                                 if (!line.isEmpty()) {
                                     break;
                                 }
@@ -201,10 +201,10 @@ public class InterCodeServer {
             @Override
             public void run() {
                 try {
-                    p=Runtime.getRuntime().exec("cmd /c start cmd.exe /k \"java InterCode < input.txt > output.txt\"");
+                    p=Runtime.getRuntime().exec("cmd /c start cmd.exe /k \"java src/BigServer/CompileHandleFiles/InterCode < src/BigServer/CompileHandleFiles/input.txt > src/BigServer/CompileHandleFiles/output.txt\"");
                     Thread.sleep(2000);
                     while (true) {
-                        line = readFilesasString("output.txt");
+                        line = readFilesasString("src/BigServer/CompileHandleFiles/output.txt");
                         if (!line.isEmpty()) {
                             break;
                         }
@@ -226,10 +226,10 @@ public class InterCodeServer {
             @Override
             public void run() {
                 try {
-                    p=Runtime.getRuntime().exec("cmd /c start cmd.exe /k \"a.exe < input.txt > output.txt\"");
+                    p=Runtime.getRuntime().exec("cmd /c start cmd.exe /k \"src/BigServer/CompileHandleFiles/a.exe < src/BigServer/CompileHandleFiles/input.txt > src/BigServer/CompileHandleFiles/output.txt\"");
                     Thread.sleep(2000);
                     while (true) {
-                        line = readFilesasString("output.txt");
+                        line = readFilesasString("src/BigServer/CompileHandleFiles/output.txt");
                         if (!line.isEmpty()) {
                             break;
                         }
@@ -251,10 +251,10 @@ public class InterCodeServer {
             @Override
             public void run() {
                 try {
-                    p=Runtime.getRuntime().exec("cmd /c start cmd.exe /k \"a.exe < input.txt > output.txt\"");
+                    p=Runtime.getRuntime().exec("cmd /c start cmd.exe /k \"src/BigServer/CompileHandleFiles/a.exe < src/BigServer/CompileHandleFiles/input.txt > src/BigServer/CompileHandleFiles/output.txt\"");
                     Thread.sleep(2000);
                     while (true) {
-                        line = readFilesasString("output.txt");
+                        line = readFilesasString("src/BigServer/CompileHandleFiles/output.txt");
                         if (!line.isEmpty()) {
                             break;
                         }

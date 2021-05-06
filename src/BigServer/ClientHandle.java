@@ -58,7 +58,7 @@ public class ClientHandle extends Thread{
             out=new ObjectOutputStream(socket.getOutputStream());
             System.out.println(out);
             ID=ClientDetails.addclient(this);
-            System.out.println("hey");
+            //System.out.println("hey");
 
             for(ClientHandle clientHandle:ClientDetails.getClisntlist())
                 System.out.println(clientHandle.getSocket());
@@ -73,14 +73,14 @@ public class ClientHandle extends Thread{
                 //System.out.println(lang);
                 if(option.equals("compile"))
                 {
-                    InterCodeServer.storeinput("");
-                    InterCodeServer.deletefiles();
-                    InterCodeServer.checkCompile(content,lang);
+                    CompileHandle.storeinput("");
+                    CompileHandle.deletefiles();
+                    CompileHandle.checkCompile(content,lang);
                 }
                 else
                 {
-                    InterCodeServer.storeinput(content);
-                    InterCodeServer.checkrun(lang);
+                    CompileHandle.storeinput(content);
+                    CompileHandle.checkrun(lang);
                 }
             }
         } catch (IOException e) {

@@ -7,6 +7,6 @@ class InterCode
 {
 	public static void main (String[] args) throws java.lang.Exception
 	{
-	 			System.out.println("karan");       
+	        System.out.println("karan"); 
 	}
 }
