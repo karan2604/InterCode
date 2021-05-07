@@ -11,3 +11,5 @@ This is a project made by Karan Kesri and [Rajat Bhatnagar](https://github.com/r
  - Perfect for conducting online interviews or practicing for them with your friend and working on team competitive programming contests.
  - Simple GUI along with background animation and Dark Mode.  
  - SignIn and SignUp Fucntionality
+
+Note: While Using the Project in Intellij Idea or Any Other IDE,Inject the MySql Connector Java Jar File
