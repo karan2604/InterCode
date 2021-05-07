@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="249.0" prefWidth="306.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientsFiles.SignUpController">
+   <children>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="85.0" text="FirstName" />
+      <TextField fx:id="FirstName" layoutX="119.0" layoutY="14.0" prefHeight="26.0" prefWidth="161.0" promptText="Enter Your First Name" />
+      <Button layoutX="14.0" layoutY="50.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="85.0" text="LastName" />
+      <TextField fx:id="LastName" layoutX="119.0" layoutY="50.0" prefHeight="26.0" prefWidth="161.0" promptText="Enter Your Last Name" />
+      <Button layoutX="14.0" layoutY="89.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="85.0" text="UserName" />
+      <Button layoutX="14.0" layoutY="129.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="85.0" text="Password" />
+      <Button layoutX="14.0" layoutY="166.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="85.0" text="Id" />
+      <TextField fx:id="UserName" layoutX="119.0" layoutY="89.0" prefHeight="26.0" prefWidth="161.0" promptText="Enter Your Email-ID" />
+      <TextField fx:id="Password" layoutX="119.0" layoutY="129.0" prefHeight="26.0" prefWidth="161.0" promptText="Enter Your Password" />
+      <TextField fx:id="Id" layoutX="119.0" layoutY="166.0" prefHeight="26.0" prefWidth="161.0" promptText="Enter Your Interview ID" />
+      <Button fx:id="sumbit" layoutX="200.0" layoutY="208.0" mnemonicParsing="false" onAction="#submitAction" prefHeight="26.0" prefWidth="85.0" text="Submit" />
+      <Label fx:id="LabelStatus" layoutX="14.0" layoutY="206.0" prefHeight="26.0" prefWidth="183.0" textFill="#e20a0a" />
+   </children>
+</AnchorPane>

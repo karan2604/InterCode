@@ -28,9 +28,9 @@
       <Button fx:id="compileButton" layoutX="801.0" layoutY="14.0" mnemonicParsing="false" onAction="#compileButtonAction" prefHeight="42.0" prefWidth="91.0" text="Compile" />
       <ChoiceBox fx:id="langChoiceBox" layoutX="1011.0" layoutY="22.0" prefHeight="26.0" prefWidth="110.0" />
       <TextArea fx:id="chatDisplayTextArea" editable="false" layoutX="800.0" layoutY="70.0" opacity="0.85" prefHeight="447.0" prefWidth="311.0" />
-      <Button fx:id="sendButton" layoutX="901.0" layoutY="587.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="26.0" prefWidth="110.0" text="Send" />
-      <Button fx:id="logoutButton" layoutX="910.0" layoutY="708.0" mnemonicParsing="false" onAction="#logout" prefHeight="42.0" prefWidth="91.0" text="Logout" />
+      <Button fx:id="sendButton" layoutX="901.0" layoutY="601.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="26.0" prefWidth="110.0" text="Send" />
+      <Button fx:id="logoutButton" layoutX="901.0" layoutY="730.0" mnemonicParsing="false" onAction="#logout" prefHeight="26.0" prefWidth="110.0" text="Logout" />
       <TextArea fx:id="chatInputTextArea" layoutX="801.0" layoutY="524.0" opacity="0.85" prefHeight="50.0" prefWidth="311.0" />
-      <RadioButton fx:id="modeRadioButton" layoutX="915.0" layoutY="668.0" mnemonicParsing="false" onAction="#changeMode" text="Dark Mode" textFill="#05b4f7" />
+      <RadioButton fx:id="modeRadioButton" layoutX="921.0" layoutY="668.0" mnemonicParsing="false" onAction="#changeMode" text="Dark Mode" textFill="#05b4f7" />
    </children>
 </AnchorPane>

@@ -10,7 +10,7 @@ public class Pre_defined_Code {
                 "import java.io.*;\n" +
                 "\n" +
                 "//Do not Modify the Class Name\n" +
-                "class InterCode\n" +
+                "class  InterCodeJava\n" +
                 "{\n" +
                 "\tpublic static void main (String[] args) throws java.lang.Exception\n" +
                 "\t{\n" +
@@ -23,7 +23,7 @@ public class Pre_defined_Code {
     String C_Pre_Code()
     {
         String preDefinedCode =
-                    "#include<stdio.h>;\n"+
+                    "#include<stdio.h>\n"+
                     "\n"+
                     "int main(void) {\n"+
                     "\t// your code goes here\n"+
@@ -35,7 +35,7 @@ public class Pre_defined_Code {
     String CPP_Pre_Code()
     {
         String preDefinedCode =
-                "#include<iostream>;\n"+
+                "#include<iostream>\n"+
                  "using namespace std;\n"+
                 "\n"+
                 "int main(void) {\n"+

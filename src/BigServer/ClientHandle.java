@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.sql.SQLException;
 
 public class ClientHandle extends Thread{
 
@@ -77,15 +78,59 @@ public class ClientHandle extends Thread{
                     CompileHandle.deletefiles();
                     CompileHandle.checkCompile(content,lang);
                 }
-                else
+                else if(option.equals("run"))
                 {
                     CompileHandle.storeinput(content);
                     CompileHandle.checkrun(lang);
+                }
+                else if(option.equals("NewClient"))
+                {
+                        Database database=Big_Server_Connection.getDatabase();
+                        if(!database.CheckDuplicateId(m.getId()))
+                            ExceptionIndatabase("ExceptionIndatabase");
+                        else {
+                            database.InsertNewClient(m.getFirstName(), m.getLastName(), m.getUserName(), m.getPassword(), m.getId());
+                            ExceptionIndatabase("NoExceptionIndatabase");
+                        }
+                }
+                else if(option.equals("Authentication"))
+                {
+                    Database database=Big_Server_Connection.getDatabase();
+                    if(database.CheckAuthentication(m.getUserName(),m.getPassword()))
+                        AuthenticationReply("AuthenticationCorrect");
+                    else
+                        AuthenticationReply("AuthenticationNotCorrect");
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            ExceptionIndatabase("ExceptionIndatabase");
+        }
+    }
+
+    private void ExceptionIndatabase(String s){
+        Message m=new Message();
+        m.setOption(s);
+        try {
+            out.writeObject(m);
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void AuthenticationReply(String s)
+    {
+        Message m=new Message();
+        m.setOption(s);
+        try {
+            out.writeObject(m);
+            out.flush();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

@@ -382,9 +382,9 @@ public class Controller implements Initializable {
     {
 
         try {
-            bigserversocket=new Socket("127.0.0.1",8063);
-            bigserverout=new ObjectOutputStream(bigserversocket.getOutputStream());
-            bigserverin=new ObjectInputStream(bigserversocket.getInputStream());
+            bigserversocket=BigServerSocketDetails.getSocket();
+            bigserverout=BigServerSocketDetails.getOut();
+            bigserverin=BigServerSocketDetails.getIn();
             isConnectedBigserver=true;
             //System.out.println("client Connected");
         } catch (Exception e) {
